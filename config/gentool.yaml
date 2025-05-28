@@ -1,0 +1,12 @@
+version: "0.1"
+database:
+  dsn: "store/trove.db?_busy_timeout=5000"
+  db: "sqlite"
+  tables: ["users"]
+  outPath: "generated"
+  outFile: ""
+  withUnitTest: true
+  modelPkgName: "model"
+  fieldNullable: false
+  fieldWithIndexTag: false
+  fieldWithTypeTag: false
