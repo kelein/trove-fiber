@@ -2,14 +2,21 @@ package service
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
 
-	v1 "github.com/kelein/trove-gin/api/v1"
-
+	v1 "github.com/kelein/trove-fiber/internal/api/v1"
 	"github.com/kelein/trove-fiber/internal/model"
 	"github.com/kelein/trove-fiber/internal/repository"
+)
+
+// User Service Errors
+var (
+	ErrUserNotFound  = errors.New("user not found")
+	ErrUserYetExist  = errors.New("user email already exists")
+	ErrDatabaseQuery = errors.New("database error when querying")
 )
 
 // UserService abstracts the user-related operations
@@ -37,10 +44,10 @@ func (s *userService) Register(ctx context.Context, req *v1.RegisterRequest) err
 	// check username
 	user, err := s.userRepo.GetByEmail(ctx, req.Email)
 	if err != nil {
-		return v1.ErrInternalServerError
+		return ErrDatabaseQuery
 	}
 	if err == nil && user != nil {
-		return v1.ErrEmailAlreadyUse
+		return ErrUserYetExist
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
@@ -57,14 +64,10 @@ func (s *userService) Register(ctx context.Context, req *v1.RegisterRequest) err
 		Email:    req.Email,
 		Password: string(hashedPassword),
 	}
-	// Transaction demo
+
+	// TODO: Move transaction to repository layer
 	err = s.tm.Transaction(ctx, func(ctx context.Context) error {
-		// Create a user
-		if err = s.userRepo.Create(ctx, user); err != nil {
-			return err
-		}
-		// TODO: other repo
-		return nil
+		return s.userRepo.Create(ctx, user)
 	})
 	return err
 }
@@ -72,7 +75,7 @@ func (s *userService) Register(ctx context.Context, req *v1.RegisterRequest) err
 func (s *userService) Login(ctx context.Context, req *v1.LoginRequest) (string, error) {
 	user, err := s.userRepo.GetByEmail(ctx, req.Email)
 	if err != nil || user == nil {
-		return "", v1.ErrUnauthorized
+		return "", ErrUserNotFound
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
@@ -83,7 +86,6 @@ func (s *userService) Login(ctx context.Context, req *v1.LoginRequest) (string, 
 	if err != nil {
 		return "", err
 	}
-
 	return token, nil
 }
 
@@ -107,10 +109,8 @@ func (s *userService) UpdateProfile(ctx context.Context, userID string, req *v1.
 
 	user.Email = req.Email
 	user.Nickname = req.Nickname
-
 	if err = s.userRepo.Update(ctx, user); err != nil {
 		return err
 	}
-
 	return nil
 }
