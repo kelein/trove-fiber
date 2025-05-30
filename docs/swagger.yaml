@@ -12,12 +12,7 @@ definitions:
     - password
     type: object
 info:
-  contact:
-    name: trove-gin
-    url: https://github.com/kelein/trove-gin
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  contact: {}
 paths:
   /login:
     post:
@@ -70,9 +65,4 @@ paths:
       summary: 修改用户信息
       tags:
       - 用户模块
-securityDefinitions:
-  Bearer:
-    in: header
-    name: Authorization
-    type: apiKey
 swagger: "2.0"

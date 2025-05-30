@@ -39,5 +39,10 @@
 # specifically when used with LiteIDE
 *.out
 
+# Ingore log files
+*.log
+logs
+
 # Ingore build binary files
 bin
+trove-fiber

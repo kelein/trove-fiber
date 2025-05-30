@@ -1,14 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {
-            "name": "trove-gin",
-            "url": "https://github.com/kelein/trove-gin"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        }
+        "contact": {}
     },
     "paths": {
         "/login": {
@@ -109,13 +102,6 @@
                     "example": "123456"
                 }
             }
-        }
-    },
-    "securityDefinitions": {
-        "Bearer": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
         }
     }
 }
