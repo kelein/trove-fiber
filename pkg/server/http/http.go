@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 // Server stands for a http server implement

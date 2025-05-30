@@ -1,8 +1,6 @@
 package handler
 
-import (
-	"github.com/gofiber/fiber"
-)
+import "github.com/gofiber/fiber/v2"
 
 // Response Message Constants
 const (

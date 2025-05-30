@@ -1,10 +1,9 @@
 package service
 
 import (
-	"github.com/kelein/trove-gin/pkg/jwt"
-	"github.com/kelein/trove-gin/pkg/sid"
-
 	"github.com/kelein/trove-fiber/internal/repository"
+	"github.com/kelein/trove-fiber/pkg/jwt"
+	"github.com/kelein/trove-fiber/pkg/sid"
 )
 
 // Service stands for backend service layer

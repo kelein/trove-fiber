@@ -2,7 +2,6 @@ package repository
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/go-redis/redis"
@@ -21,19 +20,15 @@ func NewRedis(conf *viper.Viper) *redis.Client {
 		Password: conf.GetString("data.redis.password"),
 	})
 
-	// ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	// defer cancel()
-
 	_, err := rdb.Ping().Result()
 	if err != nil {
 		panic(fmt.Sprintf("redis error: %s", err.Error()))
 	}
-
 	return rdb
 }
 
 // NewDB creates a new GORM database connection
-func NewDB(conf *viper.Viper, l *log.Logger) *gorm.DB {
+func NewDB(conf *viper.Viper) *gorm.DB {
 	var db *gorm.DB
 	var err error
 	driver := conf.GetString("data.db.user.driver")

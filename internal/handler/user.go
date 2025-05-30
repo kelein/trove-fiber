@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 
 	v1 "github.com/kelein/trove-fiber/internal/api/v1"
 	"github.com/kelein/trove-fiber/internal/service"
@@ -32,7 +32,7 @@ func NewUserHandler(handler *BaseHandler, userService service.UserService) *User
 // @Accept json
 // @Produce json
 // @Param request body v1.RegisterRequest true "params"
-// @Success 200 {object} v1.Response
+// #@Success 200 {object} v1.Response
 // @Router /register [post]
 func (h *UserHandler) Register(ctx *fiber.Ctx) error {
 	req := new(v1.RegisterRequest)
@@ -52,8 +52,8 @@ func (h *UserHandler) Register(ctx *fiber.Ctx) error {
 // @Tags 用户模块
 // @Accept json
 // @Produce json
-// @Param request body v1.LoginRequest true "params"
-// @Success 200 {object} v1.LoginResponse
+// #@Param request body v1.LoginRequest true "params"
+// #@Success 200 {object} v1.LoginResponse
 // @Router /login [post]
 func (h *UserHandler) Login(ctx *fiber.Ctx) error {
 	var req v1.LoginRequest
@@ -76,7 +76,7 @@ func (h *UserHandler) Login(ctx *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Security Bearer
-// @Success 200 {object} v1.GetProfileResponse
+// #@Success 200 {object} v1.GetProfileResponse
 // @Router /user [get]
 func (h *UserHandler) GetProfile(ctx *fiber.Ctx) error {
 	userID := h.ParseUserID(ctx)
@@ -100,8 +100,8 @@ func (h *UserHandler) GetProfile(ctx *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Security Bearer
-// @Param request body v1.UpdateProfileRequest true "params"
-// @Success 200 {object} v1.Response
+// #@Param request body v1.UpdateProfileRequest true "params"
+// #@Success 200 {object} v1.Response
 // @Router /user [put]
 func (h *UserHandler) UpdateProfile(ctx *fiber.Ctx) error {
 	userID := h.ParseUserID(ctx)
