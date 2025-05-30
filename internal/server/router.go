@@ -58,6 +58,8 @@ func setupRouter(app *fiber.App, userHandler *handler.UserHandler) {
 	v1 := app.Group("/v1")
 	v1.Post("/login", userHandler.Login)
 	v1.Post("/register", userHandler.Register)
+	v1.Get("/user", userHandler.GetProfile)
+	v1.Put("/user", userHandler.UpdateProfile)
 }
 
 func index(ctx *fiber.Ctx) error { return ctx.JSON(version.Runtime()) }

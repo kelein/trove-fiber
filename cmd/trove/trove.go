@@ -7,6 +7,13 @@ import (
 	"log/slog"
 	"os"
 
+	"go.opentelemetry.io/otel"
+	stdout "go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
+	"go.opentelemetry.io/otel/propagation"
+	"go.opentelemetry.io/otel/sdk/resource"
+	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
+
 	"github.com/kelein/trove-fiber/docs"
 	"github.com/kelein/trove-fiber/internal/inject"
 	"github.com/kelein/trove-fiber/pkg/config"
@@ -20,28 +27,33 @@ var (
 	cfg = flag.String("conf", "config/dev.yaml", "config file path")
 )
 
-func init() { initSwaggerInfo() }
+func init() {
+	initTracerProvider()
+	docs.InitSwaggerInfo()
+}
 
-// initSwaggerInfo setup swagger info
-//
-// * Basic Info
-// @license.name Apache 2.0
-// @contact.name trove-gin
-// @contact.url https://github.com/kelein/trove-gin
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-//
-// * Authentication Info
-// @securityDefinitions.apiKey Bearer
-// @name Authorization
-// @in header
-func initSwaggerInfo() {
-	docs.SwaggerInfo.BasePath = "v1"
-	docs.SwaggerInfo.Host = "localhost:8000"
-	docs.SwaggerInfo.Title = "Trove API Server"
-	docs.SwaggerInfo.Version = version.AppVersion
-	docs.SwaggerInfo.Description = version.String()
-	docs.SwaggerInfo.InfoInstanceName = "swagger"
-	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+func initTracerProvider() *sdktrace.TracerProvider {
+	exporter, err := stdout.New(stdout.WithPrettyPrint())
+	if err != nil {
+		slog.Error("initialize otel exporter failed", "error", err)
+		os.Exit(1)
+	}
+	provider := sdktrace.NewTracerProvider(
+		sdktrace.WithSampler(sdktrace.AlwaysSample()),
+		sdktrace.WithBatcher(exporter),
+		sdktrace.WithResource(
+			resource.NewWithAttributes(
+				semconv.SchemaURL,
+				semconv.ServiceNameKey.String(version.AppName),
+				semconv.ServiceVersionKey.String(version.AppVersion),
+			),
+		),
+	)
+	otel.SetTracerProvider(provider)
+	prop := propagation.NewCompositeTextMapPropagator(
+		propagation.TraceContext{}, propagation.Baggage{})
+	otel.SetTextMapPropagator(prop)
+	return provider
 }
 
 func main() {
