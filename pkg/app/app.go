@@ -10,13 +10,16 @@ import (
 	"github.com/kelein/trove-fiber/pkg/server"
 )
 
+// Option for config option of the App
+type Option func(a *App)
+
+// App stands for application
 type App struct {
 	name    string
 	servers []server.Server
 }
 
-type Option func(a *App)
-
+// NewApp initializes a new App instance with options
 func NewApp(opts ...Option) *App {
 	a := &App{}
 	for _, opt := range opts {
@@ -25,14 +28,17 @@ func NewApp(opts ...Option) *App {
 	return a
 }
 
+// WithServer sets the servers for the App
 func WithServer(servers ...server.Server) Option {
 	return func(a *App) { a.servers = servers }
 }
 
+// WithName sets the name of the App
 func WithName(name string) Option {
 	return func(a *App) { a.name = name }
 }
 
+// Run bootstraps the application and all servers
 func (a *App) Run(ctx context.Context) error {
 	var cancel context.CancelFunc
 	ctx, cancel = context.WithCancel(ctx)
@@ -40,7 +46,6 @@ func (a *App) Run(ctx context.Context) error {
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-
 	for _, serv := range a.servers {
 		go func(serv server.Server) {
 			if err := serv.Start(ctx); err != nil {

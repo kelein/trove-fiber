@@ -1,7 +1,7 @@
 env: local
 http:
   host: 0.0.0.0
-  port: 8000
+  port: 7080
 
 security:
   api_sign:
@@ -16,12 +16,13 @@ data:
       driver: sqlite
       dsn: store/trove.db?_busy_timeout=5000
 
-  #    user:
-  #      driver: mysql
-  #      dsn: root:123456@tcp(127.0.0.1:3380)/user?charset=utf8mb4&parseTime=True&loc=Local
-  #    user:
-  #      driver: postgres
-  #      dsn: host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai
+    # user:
+    #   driver: mysql
+    #   dsn: root:123456@tcp(127.0.0.1:3380)/user?charset=utf8mb4&parseTime=True&loc=Local
+
+    # user:
+    #   driver: postgres
+    #   dsn: host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai
 
   redis:
     addr: 127.0.0.1:6350

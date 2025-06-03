@@ -71,7 +71,7 @@ func main() {
 	}
 
 	addr := fmt.Sprintf("http://%s:%d", conf.GetString("http.host"), conf.GetInt("http.port"))
-	slog.Info("server start listen", "addr", addr)
+	slog.Info("server start listen on", "addr", addr)
 	slog.Info("swagger docs", "addr", fmt.Sprintf("%s/swagger/index.html", addr))
 	if err = app.Run(context.Background()); err != nil {
 		slog.Error("server run failed", "error", err)

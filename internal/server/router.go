@@ -1,16 +1,17 @@
 package server
 
 import (
-	"github.com/VictoriaMetrics/metrics"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/etag"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/pprof"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/gofiber/swagger"
 	"github.com/spf13/viper"
 
 	"github.com/kelein/trove-fiber/internal/handler"
+	"github.com/kelein/trove-fiber/internal/middleware"
 	"github.com/kelein/trove-fiber/pkg/jwt"
 	"github.com/kelein/trove-fiber/pkg/server/http"
 	"github.com/kelein/trove-fiber/pkg/version"
@@ -30,22 +31,23 @@ func NewHTTPServer(conf *viper.Viper, jwt *jwt.JWT, userHandler *handler.UserHan
 
 func setupRouter(app *fiber.App, userHandler *handler.UserHandler) {
 	app.Use(etag.New())
+	app.Use(cors.New())
 	app.Use(pprof.New())
-	app.Use(logger.New())
+	app.Use(recover.New())
 	app.Use(requestid.New())
+
+	app.Use(middleware.Slogger())
+	prome := middleware.NewProme(app, version.AppName, "/metrics")
+	app.Use(prome.Run())
 
 	app.Get("/", index)
 	app.Get("/version", index)
 	app.Get("/healthz", index)
 	app.Get("/swagger/*", swagger.HandlerDefault)
-	app.Get("/metrics", func(ctx *fiber.Ctx) error {
-		metrics.WritePrometheus(ctx.Response().BodyWriter(), true)
+	app.Get("/index", func(ctx *fiber.Ctx) error {
+		ctx.Redirect("/swagger/index.html", fiber.StatusFound)
 		return nil
 	})
-
-	// s.GET("/index", func(ctx *gin.Context) {
-	// 	ctx.Redirect(gohttp.StatusFound, "/swagger/index.html")
-	// })
 
 	// // Non-strict permission routing group
 	// noStrictAuthRouter := v1.Group("/").Use(middleware.NoStrictAuth(jwt, logger))
