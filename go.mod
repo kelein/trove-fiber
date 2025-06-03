@@ -3,7 +3,6 @@ module github.com/kelein/trove-fiber
 go 1.24.3
 
 require (
-	github.com/VictoriaMetrics/metrics v1.37.0
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/gofiber/fiber/v2 v2.52.8
@@ -14,6 +13,7 @@ require (
 	github.com/sony/sonyflake v1.2.1
 	github.com/spf13/viper v1.20.1
 	github.com/swaggo/swag v1.16.4
+	github.com/valyala/fasthttp v1.51.0
 	go.opentelemetry.io/otel v1.36.0
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.36.0
 	go.opentelemetry.io/otel/sdk v1.36.0
@@ -71,9 +71,6 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/swaggo/files/v2 v2.0.2 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.51.0 // indirect
-	github.com/valyala/fastrand v1.1.0 // indirect
-	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/otel/metric v1.36.0 // indirect
