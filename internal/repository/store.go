@@ -10,6 +10,8 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+
+	"github.com/kelein/trove-fiber/pkg/log"
 )
 
 // NewRedis creates a new Redis client
@@ -36,14 +38,23 @@ func NewDB(conf *viper.Viper) *gorm.DB {
 
 	switch driver {
 	case "mysql":
-		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+			DisableAutomaticPing: false,
+			Logger:               log.DefaultOrmlogger(),
+		})
+
 	case "postgres":
 		db, err = gorm.Open(postgres.New(postgres.Config{
 			DSN:                  dsn,
 			PreferSimpleProtocol: true,
 		}), &gorm.Config{})
+
 	case "sqlite":
-		db, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{})
+		db, err = gorm.Open(sqlite.Open(dsn), &gorm.Config{
+			DisableAutomaticPing: false,
+			Logger:               log.DefaultOrmlogger(),
+		})
+
 	default:
 		panic("unknown db driver")
 	}

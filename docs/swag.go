@@ -13,7 +13,7 @@ import "github.com/kelein/trove-fiber/pkg/version"
 // @name Authorization
 // @in header
 func InitSwaggerInfo() {
-	SwaggerInfo.BasePath = "v1"
+	SwaggerInfo.BasePath = "/v1"
 	SwaggerInfo.Title = "Trove API Server"
 	SwaggerInfo.Version = version.AppVersion
 	SwaggerInfo.Description = version.String()

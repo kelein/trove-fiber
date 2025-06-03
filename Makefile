@@ -59,8 +59,8 @@ generate:
 .PHONY: swag
 # swag docs
 swag:
-	# swag init  -g cmd/trove/trove.go -o ./docs --parseDependency
-	swag init  -g cmd/trove/trove.go -o docs
+	# swag init -g cmd/trove/trove.go -o ./docs --parseDependency
+	swag init -g cmd/trove/trove.go -o docs
 
 .PHONY: all
 # generate all
