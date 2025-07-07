@@ -10,7 +10,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/wire v0.6.0
 	github.com/prometheus/client_golang v1.22.0
-	github.com/sony/sonyflake v1.2.1
+	github.com/sony/sonyflake v1.3.0
 	github.com/spf13/viper v1.20.1
 	github.com/swaggo/swag v1.16.4
 	github.com/valyala/fasthttp v1.63.0
