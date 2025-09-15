@@ -18,7 +18,7 @@ require (
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.38.0
 	go.opentelemetry.io/otel/sdk v1.38.0
 	golang.org/x/crypto v0.42.0
-	google.golang.org/grpc v1.75.0
+	google.golang.org/grpc v1.75.1
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gorm.io/driver/mysql v1.6.0
 	gorm.io/driver/postgres v1.6.0
