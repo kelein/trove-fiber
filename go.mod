@@ -15,7 +15,7 @@ require (
 	github.com/swaggo/swag v1.16.6
 	github.com/valyala/fasthttp v1.68.0
 	go.opentelemetry.io/otel v1.39.0
-	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.38.0
+	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.39.0
 	go.opentelemetry.io/otel/sdk v1.39.0
 	golang.org/x/crypto v0.46.0
 	google.golang.org/grpc v1.78.0
