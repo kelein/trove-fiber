@@ -7,7 +7,7 @@ require (
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/gofiber/fiber/v2 v2.52.11
 	github.com/gofiber/swagger v1.1.1
-	github.com/golang-jwt/jwt/v5 v5.3.0
+	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/google/wire v0.7.0
 	github.com/prometheus/client_golang v1.23.2
 	github.com/sony/sonyflake v1.3.0
