@@ -16,7 +16,7 @@ require (
 	github.com/valyala/fasthttp v1.69.0
 	go.opentelemetry.io/otel v1.40.0
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.39.0
-	go.opentelemetry.io/otel/sdk v1.39.0
+	go.opentelemetry.io/otel/sdk v1.40.0
 	golang.org/x/crypto v0.47.0
 	google.golang.org/grpc v1.78.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
